@@ -1,0 +1,14 @@
+data = envi_get_data(fid=fid, dims=dims, pos=pos)
+该函数用于返回单一波段的空间子集数据
+pos : 波段位置(是一个标量)
+dims: 空间子集
+
+result = envi_get_slice([/BIL], [/BIP], FID=fileID, LINE=integer, pos=array, xe=value, xs=value)
+该函数用于获取某一行的xs~xe列光谱子集
+pos  : 选取光谱子集
+line ：行号
+
+result = strmatch(String, SearchString, [/fold_case])
+idl内部函数，用于
+
+result = strsplit(String, [pattern], [count=variable], [escape=string], [/regex], [/fold_case], [/extract |  LENGTH=variable], [ /PRESERVE_NULL])

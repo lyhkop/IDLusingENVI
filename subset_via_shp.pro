@@ -52,7 +52,7 @@ Pro Spatialsubset, input_file_fid, shp_file_name, output_file_name
   m_fid=m_fid, m_pos=[0], value=0, $
   out_bname= bnames+'_mask',in_memory=0, out_name=output_file_name, r_fid=r_fid
   
-  ;envi_file_mng, id=m_fid, /remove
+  envi_file_mng, id=m_fid, /remove
 
 End
 
@@ -65,22 +65,25 @@ Pro Subset_via_shp
   envi_batch_init, log_file='batch.log'
   
   input_files_path = dialog_pickfile(title='请选择待裁剪文件的路径', /directory)
+  if (input_files_path eq '') then begin
+   return
+  endif
   input_files = file_search(input_files_path, '*.ld3', count=input_files_count)
   if (input_files_count eq 0) then begin 
-    dialog_return = dialog_message([input_files_path, ':路径下没有文件'], title='警告信息！', /information)
+    dialog_return = dialog_message([input_files_path, ':路径下没有文件.ld3'], title='警告信息！', /information)
     return
   endif
   
   
-  input_shp = dialog_pickfile(title='请选择用于裁剪的面文件', filter='.shp')
+  input_shp = dialog_pickfile(title='请选择用于裁剪的面文件', filter='*.shp')
   if (input_shp eq '') then begin
-    dialog_return = dialog_message(['面文件无效'], title='警告信息！', /information)
     return
   endif
+  
+  
   
   output_files_path = dialog_pickfile(title='请选择输出文件的路径', /directory)
   if (output_files_path eq '') then begin
-    dialog_return = dialog_message(['输出文件路径无效'], title='警告信息！', /information)
     return
   endif
   
@@ -102,7 +105,7 @@ Pro Subset_via_shp
       continue
     endif
     
-    output_file_name = output_files_path + file_basename(input_file) + '_mask'
+    output_file_name = output_files_path + file_basename(input_file, '.ld3') + '_mask.ld3'
     
     Spatialsubset, input_file_id, input_shp, output_file_name
     
